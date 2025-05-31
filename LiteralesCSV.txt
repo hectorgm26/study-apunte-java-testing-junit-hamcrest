@@ -1,0 +1,41 @@
+
+Si bien parametrizar metodos con un solo argumento en el que vienen varios valores separados por comas es una forma de hacerlo,
+no es la más recomendable. En su lugar, es mejor utilizar un objeto que encapsule los datos que queremos pasar. Esto mejora la legibilidad y el mantenimiento del código.
+
+
+a Veces tendremos que enviar a nuestros metodos de prueba mas de un argumento, entrando en juego los csv
+Los csv son formatos de texto plano donde podemos guardar informacion en columnas
+Ejemplo:
+
+valor1_1, valor1_2, valor1_3, valor1_N
+valor2_1, valor2_2, valor2_3, valor2_N
+valorM_1, valorM_2, valorM_3, valorM_N
+
+@CsvSource({"valor1_1, valor1_2, valor1_3, valor1_N",
+            "valor2_1, valor2_2, valor2_3, valor2_N",
+            "valorM_1, valorM_2, valorM_3, valorM_N"})
+
+public void metodoPrueba(String valor1, String valor2, String valor3, String valorN) {
+    // Lógica de prueba utilizando los valores proporcionados
+}
+// Ejemplo de uso de @CsvSource en un test de JUnit
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class MiClaseTest {
+
+    @ParameterizedTest
+    @CsvSource({
+        "valor1_1, valor1_2, valor1_3, valor1_N",
+        "valor2_1, valor2_2, valor2_3, valor2_N",
+        "valorM_1, valorM_2, valorM_3, valorM_N"
+    })
+    public void metodoPrueba(String valor1, String valor2, String valor3, String valorN) {
+        // Lógica de prueba utilizando los valores proporcionados
+        assertEquals(valor1.length() + valor2.length() + valor3.length(), valorN.length());
+    }
+}
+DE ESTA FORMA, SE LEERÁ CADA FILA COMO UN CONJUNTO DE ARGUMENTOS PARA EL MÉTODO DE PRUEBA, PARTIENDO POR VALOR1, VALOR2, VALOR3 Y VALORN.
+y luego pasara a la siguiente fila y asi sucesivamente. CADA LINEA SERA UNA EJECUCION DEL METODO, Y CADA STRING SEPARADO POR COMA SERA UN ARGUMENTO DEL METODO.
+CADA METODO RECIBIRA TANTOS STRINGS COMO TANTOS CAMPOS TENGAMOS EN CADA FILA/LINEA DEL CSV

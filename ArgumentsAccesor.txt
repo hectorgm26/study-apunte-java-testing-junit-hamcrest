@@ -1,0 +1,26 @@
+
+Cuando pasamos argumentos al metodo test, por defecto cada argumento proporcionado al test parametrizado corresponde
+con un unico parametro del metodo de prueba
+
+Por eso cuando pasamos muchos argumentos se vuelve tedioso el test
+
+ESTE PROBLEMA SE RESUELVE CON EL ARGUMENTS ACCESSOR, en vez de pasar los parametros al metodo, los encapsulamos con la
+annotacion @ArgumentsAccessor, y dentro del metodo accederemos a los parametros mediante el argumentsAccessor
+
+
+@ParameterizedTest
+    @CsvSource({"Carlos,Ruiz,Carlos Ruiz", "Arlen,Mongallier,Arlen Mongallier"})
+    public void testNombreCompletoPersona(ArgumentsAccessor accessor) {
+        String nombre = accessor.getString(0); // Accede al primer argumento
+        String apellido = accessor.getString(1); // Accede al segundo argumento
+        String resultadoEsperado = accessor.getString(2); // Accede al tercer argumento
+        // Ello en la primera vuelta del test, y se repetira en cada iteracion con los valores del csvSource
+
+        // el accessor tendra metodo get que devuelve un objeto con indice de posicion, que sera la posicion de los argumentos del csvSource, que se delimitaran por la coma
+        // (0) - Carlos, (1) - Ruiz, (2) - Carlos Ruiz
+        // Tambien podemos usar un getDatoPrimitivo segun el dato que se requiera
+
+        Persona persona = new Persona(nombre, apellido);
+        assertEquals(resultadoEsperado, persona.getNombreCompleto());
+
+    }

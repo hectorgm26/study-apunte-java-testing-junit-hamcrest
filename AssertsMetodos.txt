@@ -1,0 +1,37 @@
+Se recomienda poner Siempre al empezar el proyecto
+import static org.junit.jupiter.api.Assertions.*;
+Con el fin de importar todos los metodos de la clase Assertions a medida que los vayamos necesitando,
+y tambien para evitar colocar la palabra Assertions tantas veces
+
+// METODOS MAS IMPORTANTES DE Assertions
+
+assertEquals - evaluar un valor esperado con un valor actual, es decir comparar dos valores
+assertNotEquals - valuamos que el valor esperado no sea igual al valor actual
+
+assertTrue - evaluar si una condicion es verdadera, es decir que tengamos un verdadero (ejemplo, es mayor que 1)
+assertFalse - evaluar si una condicion es falsa, es decir que tengamos un falso (ejemplo, es menor que 1)
+
+assertNotNull - evaluar si un objeto respuesta no es nulo
+assertNull - evaluar si un objeto respuesta es nulo
+
+assertInstanceOf - evaluar si un objeto es una instancia de una clase. Evaluamos el tipo de objEto que tengo. La respuesta se espera que sea de x valor y no de otro
+
+assertSame - evaluar si dos objetos son de la misma instancia, es decir que ocupan la misma posicion de memoria
+assertNotSame - evaluar si dos objetos no son de la misma instancia, es decir que ocupan diferente posicion de memoria
+
+assertArrayEquals - evaluar si dos arrays son iguales, es decir que tienen los mismos valores y en el mismo orden, o si los dos son nulos, o si los dos estan vacios
+
+assertTrows(excepcionEsperada, ejecutableMetodo) - evaluar si un metodo lanza una excepcion. Evaluamos si el metodo lanza una excepcion o no. Si lanza la excepcion, el test pasa. Si no lanza la excepcion, el test falla
+assertDoesNotThrow(ejecutableMetodo) - evaluar si un metodo no lanza una excepcion. Evaluamos si el metodo lanza una excepcion o no. Si lanza la excepcion, el test falla. Si no lanza la excepcion, el test pasa
+
+assertTimeout(ObjetoDuracion, ejecutable) - evaluar si un metodo se ejecuta dentro de un tiempo determinado. No agota el test en caso que se exceda el tiempo especificado. Si se ejecuta dentro del tiempo, el test pasa. Si no se ejecuta dentro del tiempo, el test falla
+assertTimeoutPreemptively(ObjetoDuracion, ejecutable) - La diferencia con el anterior es que este metodo si agota el test en caso que se exceda el tiempo especificado, evitando bucles infinito. Es decir, espera solo el tiempo asignado, por ende al momento de pasarse (sin esperar que termine el codigo dentro), se corta la ejecucion y el test falla. Si se ejecuta dentro del tiempo, el test pasa. Si no se ejecuta dentro del tiempo, el test falla
+
+AGRUPANDO ASERCIONES
+assertAll(ejecutable) - este metodo permite agrupar varias aserciones en una sola. Si alguna de las aserciones falla, el test falla. Si todas las aserciones pasan, el test pasa.
+assertAll(Collection<ejecutables>) - este metodo recibe una coleccion de ejecutables y permite agrupar varias aserciones en una sola. Si alguna de las aserciones falla, el test falla. Si todas las aserciones pasan, el test pasa.
+
+CADA CLASE DE PRUEBA DEFINIRA CASOS DE USOS
+SI UNA CLASE TIENE VARIOS METODOS, HAREMOS TANTOS CASOS DE USO EN BASE A LA CANTIDAD DE METODOS
+
+Los metodos admiten pasarle mensajes de errores para que nos ayuden a identificar el error

@@ -1,0 +1,42 @@
+Para hacer test parametrizados con Junit (test que se ejecutan con diferentes valores de entrada)
+se puede usar la anotación @ParameterizedTest
+
+Pero primero se debe importar en el pom JUnit Jupiter Params
+
+Y luego para pasarle los valores de entrada se puede usar la anotación @ValueSource, pasandole un array con el tipo de dato que se va a usar
+Ejemplo: @ValueSource(ints = {1, 3, 25, -3, 99})
+
+Se le puede poner nombres a los test con name
+@ParameterizedTest(name = "Test {index} El valor {0} deberia ser impar ")
+nombre del test, donde index sera la posicion, y 0 el argumento, pueden haber mas argumentos asi que serian mas numeros
+
+El test iterara sobre todos los valores del array, y por cada uno de los valores invocara el test, pasando el valor
+
+Tambien con la anotacion @NullSource se le pasara un valor nulo a la prueba
+Tambien con la anotacion @EmptySource se le pasa un valor vacio a la prueba haciendo una nueva iteracion
+y con @NullAndEmptySource se le pasa un valor nulo y vacio a la prueba haciendo una nueva iteracion
+
+
+EL VALUESOURCE solo admite estos tipos:
+short - con el atributo shorts
+byte - con el atributo bytes
+int - con el atributo ints
+long - con el atributo longs
+float - con el atributo floats
+double - con el atributo doubles
+char - con el atributo chars
+java.lang.String - con el atributo strings
+java.lang.Class - con el atributo classes
+
+@EnumSource(nombreEnum) - para pasarle un enum
+
+@EnumSource(value = Month.class, names = {"APRIL", "JUNE", "SEPTEMBER", "NOVEMBER"})
+Al pasarle el enum, el test recorrera todos los valores del enum. Se debe pasar el valor al metodo igualmente
+
+AHORA QUE PASA SI QUEREMOS UTILIZAR TODOS LOS VALORES DEL ENUM, MENOS UNOS CUANTOS. EJEMPLO COGER TODOS LOS MESES, MENOS LOS QUE NO TIENEN 31 DIAS
+Se usa luego de la lista en names, el mode = EnumSource.Mode.EXCLUDE, Y ASI SE EXCLUYEN DEL TEST LOS VALORES QUE ESTAN EN LA LISTA
+
+@EnumSource(value = Month.class, names = {"FEBRUARY", "APRIL", "JUNE", "SEPTEMBER", "NOVEMBER"}, mode = EnumSource.Mode.EXCLUDE)
+
+Verificar coincidencias de terminaciones, como "BER" EN UN MES, con una expresion regular
+@EnumSource(value = Month.class, names = {".+BER"}, mode = EnumSource.Mode.MATCH_ANY)

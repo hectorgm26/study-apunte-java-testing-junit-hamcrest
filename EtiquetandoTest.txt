@@ -1,0 +1,33 @@
+
+Etiquetado de test
+
+Junit mediante la anotacion @Tags permite clasificar los metodos de prueba para crear grupos, y asi ejecutar de algunos grupos
+
+@Test
+@Tag("integrationTest")
+    public void testIntegracion() {
+        System.out.println("Este es un test de integración marcado con la etiqueta 'integrationTest'");
+    }
+
+@Test
+@Tag("performanceTest")
+    public void testRendimiento() {
+        System.out.println("Este es un test de rendimiento marcado con una etiqueta vacía");
+    }
+
+PARA INDICAR QUE QUEREMOS EJECUTAR TEST DE CIERTOS TAGS TENEMOS QUE HACERLO CON MAVEN MEDIANTE EL PLUGIN SUREFIRE
+Y configurando en el pom xml el plugin de maven-surefire-plugin en la parte de configuración de la etiqueta <build> los grupos que queremos ejecutar
+
+<build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <groups>integrationTest</groups>
+                </configuration>
+            </plugin>
+        </plugins>
+</build>
+
+mvn test -Dtest=NombreClase

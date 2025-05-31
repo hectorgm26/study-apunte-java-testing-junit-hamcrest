@@ -1,0 +1,16 @@
+
+Se usa la anotacion @TestMethodOrder a nivel de clase
+
+Como argumento recibe el tipo/criterio de ordenacion
+
+- Orden basado en el nombre del metodo
+MethodOrderer.MethodName.class
+
+- Order basado en el nombre logico del metodo (metodo con el display name)
+MethodOrderer.DisplayName.class
+
+- Orden definido por la anotacion @Order(numero) para darle un criterio personalizado y decirle cuales van antes que otros
+MethodOrderer.OrderAnnotation.class
+
+- Orden aleatorio
+MethodOrderer.Random.class

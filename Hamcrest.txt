@@ -1,0 +1,209 @@
+
+Es un framework de aserciones que permite realizar pruebas unitarias de una manera más legible y expresiva.
+Permite aserciones y expresiones declarativas mas legibles y expresivas, facilitando la escritura de pruebas unitarias.
+Es compatible con Junit y muchos otros lenguajes de programación.
+Otra utilidad es para moquear objetos, como se hace con Mockito, pero con una sintaxis más legible.
+
+Se importa en el pom con:
+<!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest -->
+<dependency>
+    <groupId>org.hamcrest</groupId>
+    <artifactId>hamcrest</artifactId>
+    <version>3.0</version>
+    <scope>test</scope>
+</dependency>
+
+Trabaja por medio de matchers, y un metodo estatico assertThat, que son objetos que encapsulan una condición de comparación
+y se utilizan para verificar si un valor cumple con esa condición.
+Un matcher es una clase que proporciona la funcionalidad de realizar un chequeo de una determinada condición, en relación a un valor esperado.
+
+MatcherAssertThat.assertThat(T actual, matcher<T> matcher)
+Primer argumento = objeto actual de cualquier tipo
+Segundo argumento = matcher DE Cualquier tipo que define la condición de comparación, pero compatible con el tipo del primer argumento.
+
+
+**************************** Principales metodos ****************************
+
+// assertThat(actual, equalToIgnoreCase(expected)): Compara el valor actual con el valor esperado ignorando mayúsculas y minúsculas utilizando el matcher equalToIgnoreCase().
+// assertThat(actual, hastoString(expected)): Comprueba si el valor actual tiene una representación en cadena que coincide con el valor esperado utilizando el matcher hasToString().
+// assertThat(actual, typeCompatibleWith(type)): Comprueba si el valor actual es compatible con el tipo especificado utilizando el matcher typeCompatibleWith().
+puede usarse para comparar si una clase es compatible con otra como herencia
+
+
+******************* Metodos tipo bean - relacionados a validaciones de objetos y sus propiedades ********************
+
+// assertThat(actual, is(expected)): Compara un valor actual que puede ser un objeto, con otro valor, esperando que sean iguales.
+// assertThat(actual, hasProperty(propertyName)); Comprueba si un objeto tiene una propiedad específica utilizando el matcher hasProperty() sin verificar el valor.
+// assertThat(actual, hasProperty(propertyName, equalTo(expectedValue))): Comprueba si un objeto tiene una propiedad específica con un valor esperado
+// assertThat(actual, any(nameClass.class)): Comprueba si un objeto es de cualquier clase especificada, incluyendo herencia.
+// assertThat(actual, isA(nameClass.class)): Comprueba si un objeto es de una clase específica. SE DIFERENCIA CON any() EN QUE isA() COMPRUEBA LA CLASE EXACTA, NO HERENCIA
+// assertThat(actual, not(nameClass.class)): Comprueba si un objeto no es de una clase específica.
+// assertThat(actual, notNullValue()): Comprueba si un objeto no es nulo
+// assertThat(actual, is(nullValue())); Comprueba si un objeto es nulo.
+// assertThat(actual, sameInstance(expected)): Comprueba si el objeto actual es la misma instancia que el objeto esperado
+// assertThat(actual, samePropertyValuesAs(expected)); Compara las propiedades de dos objetos y verifica si tienen los mismos valores
+// assertThat(actual, samePropertyValuesAs(expected, properties)); Compara las propiedades de dos objetos y verifica si tienen los mismos valores, pero solo para las propiedades especificadas en el segundo argumento.
+por ende se ignoran las propiedades que no se especifiquen en el segundo argumento
+
+
+***************** Metodos para colecciones - relacionados a validaciones de colecciones y sus elementos ******************
+
+// assertThat(nombreArray, Matchers.arrayWithSize(3)); Compara que el array tenga un tamaño de 3
+lo mide desde el 1, y no desde el 0 como comunmente se cuenta en programación
+
+// assertThat(nombreArray, hasItemInArray(valorEspecifico)); Comprueba si un array contiene un elemento específico
+// assertThat(nombreArray, arrayContainingInAnyOrder("valor1", "valor2", "valor3")); Comprueba si un array contiene los elementos especificados en cualquier orden
+// assertThat(nombreArray, arrayContaining("valor1", "valor2", "valor3")); Comprueba si un array contiene los elementos especificados en el orden exacto del metodo
+
+// assertThat(nombreLista, Matchers.empty()); Comprueba si una lista está vacía
+// assertThat(nombreLista, hasSize(3)); Comprueba si una lista tiene un tamaño específico
+// assertThat(nombreLista, hasItem("valorEspecifico")); Comprueba si una lista contiene un elemento específico
+// assertThat(nombreLista, contains("valor1", "valor2", "valor3")); Comprueba si una lista contiene los elementos especificados en el orden exacto del metodo
+// assertThat(nombreLista, containsInAnyOrder("valor1", "valor2", "valor3")); Comprueba si una lista contiene los elementos especificados en cualquier orden
+
+// assertThat(nombreMap, anEmptyMap()); Comprueba si un mapa está vacío
+// assertThat(mapColores, aMapWithSize(3)); Comprueba si un mapa tiene un tamaño específico
+// assertThat(mapColores, aMapWithSize(greaterThan(2))); Comprueba si un mapa tiene un tamaño mayor que el especificado
+// assertThat(mapColores, hasKey("claveEspecifica")); Comprueba si un mapa contiene una clave específica
+// assertThat(mapColores, hasValue("valorEspecifico")); Comprueba si un mapa contiene un valor específico
+// assertThat(mapColores, hasEntry("claveEspecifica", "valorEspecifico")); Comprueba si un mapa contiene una entrada específica (clave-valor)
+
+
+************************** Metodos para tipos numericos ******************************
+
+// assertThat(valorNumerico, greaterThan(10)); Comprueba si un valor numérico es mayor que el valor especificado
+// assertThat(valorNumerico, greaterThanOrEqualTo(10)); Comprueba si un valor numérico es mayor o igual que el valor especificado
+// assertThat(valorNumerico, lessThan(10)); Comprueba si un valor numérico es menor que el valor especificado
+// assertThat(valorNumerico, lessThanOrEqualTo(10)); Comprueba si un valor numérico es menor o igual que el valor especificado
+
+// assertThat(valorNumericoDecimal, closeTo(10.0, 0.1)); Comprueba si un valor numérico está cerca de otro valor dentro de un margen de error especificado
+el margen seria entre 10.0, sumado o restado 0.1
+
+
+************************* Metodos para cadenas de texto ******************************
+
+// assertThat(valorCadena, startsWith("prefijo")); Comprueba si una cadena comienza con un prefijo específico
+// assertThat(valorCadena, startsWithIgnoringCase("prefijo")); Comprueba si una cadena comienza con un prefijo específico ignorando mayúsculas y minúsculas
+// assertThat(valorCadena, endsWith("sufijo")); Comprueba si una cadena termina con un sufijo específico.
+// assertThat(valorCadena, endsWithIgnoringCase("sufijo")); Comprueba si una cadena termina con un sufijo específico ignorando mayúsculas y minúsculas
+
+// assertThat(valorCadena, containsString("subcadena")); Comprueba si una cadena contiene una subcadena específica
+// assertThat(valorCadena, containsStringIgnoreCase("subcadena")); Comprueba si una cadena contiene una subcadena específica ignorando mayúsculas y minúsculas
+
+// assertThat("", isEmptyString()); Comprueba si una cadena está vacía
+// assertThat("", isEmptyOrNullString()); Comprueba si una cadena está vacía o es nula
+
+// assertThat("    ", blankString()); Comprueba si una cadena está en blanco (es decir, contiene solo espacios en blanco)
+// assertThat("    ", blankOrNullString()); Comprueba si una cadena está en blanco o es nula
+
+// assertThat(cadena, equalTo("valorEsperado")); Comprueba si una cadena es igual a otra cadena específica
+// assertThat(cadena, equalToIgnoringCase("valorEsperado")); Comprueba si una cadena es igual a otra cadena específica ignorando mayúsculas y minúsculas
+
+// assertThat("    hola     ", equalToCompressingWhiteSpace("hola"));  Comprueba si una cadena es igual a otra cadena específica, ignorando los espacios en blanco al principio y al final de la cadena
+
+// String saludo = "Hola todo el mundo";
+// assertThat(saludo, stringContainsInOrder("Hola", "todo", "mundo"));
+Comprueba si una cadena contiene las subcadenas especificadas en el orden dado, sin importar los espacios en blanco entre ellas.
+
+
+****************** Metodos Core API (genericos, no enfocados a cadenas, numeros o colecciones) ******************
+
+// assertThat("valor", not("valorNoEsperado")); Comprueba que un valor no sea igual a otro valor específico. ES LO MISMO QUE en JUnit assertNotEquals(valor, valorNoEsperado);
+// assertThat("Hola", allOf(startsWith("H"), endsWith("a"), containsString("ol"))); Comprueba que un valor cumpla con todas las condiciones especificadas en el matcher allOf().
+// assertThat("Hola", anyOf(startsWith("H"), endsWith("a"), containsString("ol"))); Comprueba que un valor cumpla con al menos una de las condiciones especificadas en el matcher anyOf().
+
+// List<Integer> numeros = Arrays.asList(1, 2, 3, 4, 5);
+// assertThat(numeros, everyItem(greaterThan(0))); Determina que en una coleccion, todos los elementos cumplan cierta condicion
+
+
+CREAR MATCHERS PERSONALIZADOS ADECUADO A NUESTRAS NECESIDADES - PROPORCIONA METODOS PARA ELLO HAMCREST
+PASOS:
+1) CREAR CLASE QUE EXTIENDA DE la clase TypeSafeMatcher<T Tipo del dato que queremos usar>, QUE PROPORCIONA METODOS PARA LAS VALIDACIONES
+2) IMPLEMENTAR EL METODO abstracto matchesSafely(T item)
+3) Crear un METODO publico Estatico dentro de la clase creada, que retorne la clase creada, para poder crear una instancia de nuestro matcher personalizado y aplicarlo
+
+public class isNumeroPositivo extends TypeSafeMatcher<Integer> {
+
+    // Método que se ejecuta antes de la prueba para validar el tipo de dato
+    @Override
+    protected boolean matchesSafely(Integer item) {
+        if (item > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    // Mensaje que se mostrara en la trasa de fallos cuando falle la prueba
+    @Override
+    public void describeTo(Description description) {
+        description.appendText("Deberia ser un numero positivo");
+    }
+
+    public static isNumeroPositivo esNumeroPosititvo() {
+        return new isNumeroPositivo();
+    }
+}
+
+AHORA BIEN, SI EL METODO CREADO NECESITA DE ARGUMENTOS, SE DEBEN CREAR ATRIBUTOS Y CONSTRUCTOR PARA RECIBIRLOS
+Y RECIBIRLOS EN EL METODO QUE DEVUELVE la instancia del matcher personalizado
+
+public class RangoMatcher extends TypeSafeMatcher<Integer> {
+
+    // Comprobaremos que el dato de entrada por parametro se encuentra dentro de un rango
+    private int limiteInferior;
+    private int limiteSuperior;
+
+    // Constructor que recibe los limites del rango
+    public RangoMatcher(int limiteInferior, int limiteSuperior) {
+        this.limiteInferior = limiteInferior;
+        this.limiteSuperior = limiteSuperior;
+    }
+
+    @Override
+    protected boolean matchesSafely(Integer item) {
+        if (limiteInferior <= item && limiteSuperior >= item) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void describeTo(Description description) {
+        description.appendText("Deberia estar entre " + limiteInferior + " y " + limiteSuperior);
+    }
+
+    public static RangoMatcher estaEntreRango(int valorInferior, int valorSuperior) {
+        return new RangoMatcher(valorInferior, valorSuperior);
+    }
+}
+
+CREAR UN MATCHER PERSONALZIADO QUE USE OTROS MATCHERS
+
+public class MatcherPersonalizado extends TypeSafeMatcher<Integer> {
+
+    // Como atributo, se define un Matcher que espera un Integer (puede ser cualquier otro tipo de dato que se quiera matchear)
+    private Matcher<Integer> expectedValue;
+
+    // Constructor que recibe un Matcher personalizado
+    public MatcherPersonalizado(Matcher<Integer> matcher) {
+        this.expectedValue = matcher;
+    }
+
+    // El metodo matchesSafely mediante el expectValue.matches(item) lo que hace,
+    es verificar si el item cumple con las condiciones del matcher esperado, el cual se pasa como argumento al constructor
+    @Override
+    protected boolean matchesSafely(Integer item) {
+        return expectedValue.matches(item);
+    }
+
+    @Override
+    public void describeTo(Description description) {
+        description.appendDescriptionOf(expectedValue);
+    }
+
+    public static MatcherPersonalizado matchesInteger(Matcher<Integer> matcher) {
+        return new MatcherPersonalizado(matcher);
+    }
+}
+
+assertThat(8, MatcherPersonalizado.matchesInteger(Matchers.lessThan(10)));

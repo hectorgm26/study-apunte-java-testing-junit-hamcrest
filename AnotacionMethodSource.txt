@@ -1,0 +1,38 @@
+
+Si bien podemos pasarle uno mas argumentos cons anotaciones @ParameterizedTest y @CsvSource,
+estos datos estan harcodeados (fijos) y no son dinamicos, y son de tipo String
+
+EN OTRAS PRUEBAS NECESITAREMOS OTROS TIPOS DE DATOS E INCLUSO MAS COMPLEJOS
+PARA ELLO, ESTA LA ANOTACION @MethodSource que nos indicara que los datos de entrada los proporcionara un metodo
+
+@MethodSource("nombreMetodo")
+el metodo generara una lista de argumentos que se pasaran a cada ejecucion del test
+
+este metodo luego se debe definir como estatico y debe devolver un Stream<Arguments> sin recibir parametros
+Si esta en la misma clase que sea un metodo privado, pero se puede dejar privado si se quiere dejar como metodo de ayuda comun de varios tests
+Arguments se refiere a una lista de argumentos, y un Stream es una secuencia de datos que se puede iterar
+
+@ParameterizedTest
+    @MethodSource("generarDatosPrueba")
+    public void testCadenaEsVacia2(String cadena, boolean valorEsperado) {
+        assertEquals(valorEsperado, cadenas.esBlanco(cadena)); // se le pasa el valor del ValueSource, que se pasa como argumento al método, iterando por cada uno de los valores
+    }
+
+    private static Stream<Arguments> generarDatosPrueba() {
+        return Stream.of(Arguments.of("", true),
+                Arguments.of(null, true),
+                Arguments.of("    ", true),
+                Arguments.of(" No vacia ", false));
+    }
+
+@ParameterizedTest
+    @MethodSource("org.studyjunit.Prueba#provideBlankSource")
+    // para importar un metodo publico se antepone el nombre del paquete.nombre de la clase # el nombre del metodo a llamar
+    public void testCadenaEsVacia3(String cadena) {
+        assertTrue(cadenas.esBlanco(cadena));
+    }
+
+METODO PUBLICO DE AYUDA QUE SE IMPORTARA EN OTROS TESTS
+    public static Stream<String> provideBlankSource() {
+        return Stream.of("", null, "         ");
+    }

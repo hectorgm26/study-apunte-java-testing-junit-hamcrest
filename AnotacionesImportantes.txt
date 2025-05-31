@@ -1,0 +1,22 @@
+
+@Test: indica que el metodo puede ejecutar un caso de prueba. Es decir, inicializar un caso de prueba
+
+@BeforeEach: ejecuta un codigo antes de cada caso de prueba
+
+@AfterEach: ejecuta un codigo despues de cada caso de prueba
+
+@Disabled: usado para ignorar algunos casos de prueba durante la ejecucion de pruebas
+
+@BeforeAll: usado para ejecutar codigo antes de todos los casos de prueba. Este metodo debe ser estatico
+
+@AfterAll: usado para ejecutar codigo despues de todos los casos de prueba. Este metodo debe ser estatico
+
+@Timeout: usado para indicar el tiempo maximo de ejecucion de un caso de prueba. Si no se cumple, el caso de prueba fallara
+
+@DisplayName: usado para indicar un nombre mas descriptivo al caso de prueba. Se usa para que el nombre del caso de prueba sea mas legible y entendible
+
+@Nested: usado para indicar que un caso de prueba es anidado dentro de otro caso de prueba. Se usa para agrupar casos de prueba relacionados
+
+CADA METODO DE PRUEBA DEBE PROBAR LOS METODOS PUBLICOS DE NUESTRA CLASE
+POR ENDE NUESTRAS PRUEBAS DEBEN SER INDEPENDIENTES DE COMO ESTEN HECHAS INTERNAMENTE EN SU CODIGO
+EL CASO DE PRUEBA DE JUNIT DEBE SER INDEPEDIENTE DEL CODIGO DE LA CLASE A PROBAR

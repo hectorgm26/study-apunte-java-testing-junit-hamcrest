@@ -1,0 +1,48 @@
+
+El caso es mas comun es cuando usamos csv los cuales contienen valores de parametros string.
+
+Veremos como convertir ese string en otro tipo de dato
+
+1) Conversion implicita, que consiste en asignar un valor de un tipo a otro tipo compatible sin necesidad de una conversión explícita. Por ejemplo, asignar un valor entero a una variable de tipo float.
+Junit proporciona convertidores de datos implicitos, el proceso de conversion depende del tipo declarado en el parametro del metodo.
+Puede convertir un string a un int, float, boolean, etc.
+
+2) Conversion explicita, los cuales funcionan en ocasiones donde no es suficiente un convertidor implicito, como en los casos de las fechas
+
+PRIMERO DEBEMOS DEFINIR UNA CLASE QUE IMPLEMENTE UNA INTERFAZ LLAMADA ARGUMENTCONVERTER, para convertir un parametro de un tipo a otro tipo.
+
+public class DateConverter implements ArgumentConverter {
+
+    // Recibe un parameterContext, que contiene informacion del parametro que se esta convirtiendo
+    // Y un objeto source, que es el valor que se esta convirtiendo,
+    // y lo que hace es convertir ese objeto source, al del tipo que se tornara
+
+    @Override
+    public Object convert(Object source, ParameterContext context) throws ArgumentConversionException {
+        // Convertiremos un string recibido para convertirlo a un objeto localDate
+        if (!(source instanceof String)) {
+            throw new IllegalArgumentException("El argumento debe ser un String" + source);
+        }
+        // año/mes/dia  - 2024/01/01   - Para ello se debe descomponer con un split y capturar los valores
+        try {
+            // se convierte el source en string y le aplicamos el split para separar los valores y obtener las partes
+            String[] partes = ((String) source).split("/");
+            int year = Integer.parseInt(partes[0]);
+            int month = Integer.parseInt(partes[1]);
+            int day = Integer.parseInt(partes[2]);
+
+            return LocalDate.of(year, month, day);
+
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Fallo la conversion" + e);
+        }
+    }
+}
+
+Luego en el metodo se debe usar la anotacion @ConvertWith(nombreClaseConvertidor.class)
+
+@ParameterizedTest
+    @CsvSource({"2024/06/08,2024", "2019/05/31,2019"})
+    public void testGetYearWorksAsExpected(@ConvertWith(DateConverter.class) LocalDate input, int expectedYear) {
+        assertEquals(expectedYear, input.getYear());
+    }

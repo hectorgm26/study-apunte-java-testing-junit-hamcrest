@@ -1,0 +1,33 @@
+
+Vamos a tener varios argumemtos y los encapsularemos en un unico parametro, que se enviara al metodo de prueba
+Simplificando el metodo de prueba. Se consigue mediante el ArgumentAggregator
+
+Primero se debe crear una clase que realice la agregacion de los argumentos, que implemente la interfaz ArgumentsAggregator
+
+public class PersonaAggregator implements ArgumentsAggregator {
+
+    // Recibe el contexto del parametro, y un accesor de argumentos que contiene los valores de los argumentos pasados al test.
+    // Dentro de ese objeto unico tendremos los parametros de la prueba
+    // Se obtienen mediante el indice de los argumentos, y se asignan a un objeto Persona
+
+    @Override
+    public Object aggregateArguments(ArgumentsAccessor accessor, ParameterContext context) throws ArgumentsAggregationException {
+
+        String nombre = accessor.getString(1);
+        String apellido = accessor.getString(2);
+
+        Persona persona = new Persona(nombre, apellido);
+        return persona;
+    }
+}
+
+Se deja siempre en los parametros las variables agregadas al final, cambiando el roden del csvSource
+
+@ParameterizedTest
+@CsvSource({"Carlos Ruiz,Carlos,Ruiz", "Arlen Mongallier,Arlen,Mongallier"})
+public void testNombreCompletoPersonUsandoAgregados(String resultadoEsperado, @AggregateWith(PersonaAggregator.class) Persona persona) {
+
+    assertEquals(resultadoEsperado, persona.getNombreCompleto());
+
+}
+

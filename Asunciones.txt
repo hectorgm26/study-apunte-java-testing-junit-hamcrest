@@ -1,0 +1,60 @@
+
+Test condicionales
+
+Normalmente cuando ejecutamos test se ejecutan todos los que hayamos definido
+Jnuit nos permite deshabilitar algunos test con la anotacion @Disabled
+
+PERO NO SIEMPRE ES ASI, ya que se puede deshabilitar en ciertas condiciones, dependiendo del entorno, o de la version de java que estemos usando, o de la version de junit que estemos usando
+Con lo cual la anotacion @Disabled no nos sirve. EJEMPLO LAS DIFERENCIAS DE ENTORNO DE EJECUCION, YA SEA PRODUCCION O DESARROLLO
+
+Junit nos proporciona la clase estatica Assumptions que nos permite hacer suposiciones sobre el entorno de ejecucion,
+ y si no se cumplen, el test se salta
+
+ Nos ofrece metodos para determinar condiciones para ejecutar test
+
+ - assumeTrue(boolean condition): Si la condicion es verdadera, el test se ejecuta, si es falsa, se salta
+ - assumeFalse(boolean condition): Si la condicion es falsa, el test se ejecuta, si es verdadera, se salta
+ - assumingThat(boolean condition, instrucciones): Se chequea la condicion booleana, y si se cumple, se ejecutan las instrucciones, sin interrumpir el test unitario
+ - abort(String message): Interrumpe incondicionalmente el test, y lo marca como fallido, con un mensaje opcional
+
+
+public class TestIntegracion {
+
+    @Test
+    public void testQueSeEjecutaSiempre() {
+        System.out.println("Se ejecuta el test 1");
+    }
+
+    @Test
+    public void testCondicional() {
+        Assumptions.assumeTrue("CI".equals(System.getenv("ENV")));
+        // Establecer variable de entorno -> set ENV=CI (en terminal)
+        // echo %ENV% (para verificar la variable de entorno)
+        // mvn test -Dtest=TestIntegracion (para ejecutar el test de una clase específica)
+
+        // set ENV=TEST (para CAMBIAR la variable de entorno y no ejecutar este test, saltandolo
+        System.out.println("Se ejecuta el test condicional en integracion continua");
+    }
+
+    @Test
+    public void testCondicional2() {
+        Assumptions.assumeFalse("CI".equals(System.getenv("ENV")));
+
+        // set ENV=TEST (como es assumeFalse, si la variable de entorno es CI, no se ejecuta el test)
+        System.out.println("Se ejecuta el test condicional en integracion continua");
+    }
+
+    @Test
+    public void testCondicional3() {
+        Assumptions.assumingThat("CI".equals(System.getenv("ENV")), () -> System.out.println("Estamos en CI!"));
+
+        System.out.println("Test Condicional 3 ejecutado");
+    }
+
+    @Test
+    public void testAbort() {
+        Assumptions.abort();
+
+        System.out.println("Este test no se ejecutará porque se ha abortado la ejecución");
+    }
+}

@@ -1,0 +1,33 @@
+
+Otra tecnica para pasar varios argumentos a un test de prueba
+
+Este Argument provider implementa una interfaz de Junit que define un metodo que inyecta y/o devuelve la lista de valores que le pasaremos al metodo de prueba
+
+Primero se crea una clase que implemente la interface ArgumentsProvider dentro de test/java
+EJEMPLO:
+
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.ArgumentsProvider;
+
+import java.util.stream.Stream;
+
+public class CadenaEsBlancoArgumentProvider implements ArgumentsProvider {
+
+    @Override
+    public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws Exception {
+        return Stream.of(Arguments.of(null, true),
+                Arguments.of("", true),
+                Arguments.of("", true),
+                Arguments.of("    ", true),
+                Arguments.of(" NO VACIA ", false));
+    }
+}
+
+Luego se la pasamos al metodo testeador con la anotacion @ArgumentsSource(nombreClase.class)
+
+@ParameterizedTest
+@ArgumentsSource(CadenaEsBlancoArgumentProvider.class)
+public void testCadenaVacia4(String input, boolean valorEsperado) {
+     assertEquals(valorEsperado, cadenas.esBlanco(input));
+}
